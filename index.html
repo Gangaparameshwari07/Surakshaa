@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SURAKSHAA</title>
+    <style>
+        /* Basic CSS for the map and UI */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: row; /* Layout changed to row for sidebar */
+            height: 100vh;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        .controls {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 250px; /* Adjust sidebar width */
+            overflow-y: auto; /* Allow scrolling for controls */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .map-container {
+            flex-grow: 1; /* Map takes remaining space */
+            display: flex;
+            flex-direction: column;
+        }
+        #map {
+            height: 100%; /* Map fills its container */
+            width: 100%;
+        }
+        .auth-container {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px 0; /* Adjusted margin for vertical spacing */
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            width: calc(100% - 10px); /* Full width minus padding */
+            box-sizing: border-box; /* Include padding in width */
+        }
+        button {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #authStatus {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        #signOutBtn {
+            background-color: #dc3545;
+        }
+        #signOutBtn:hover {
+            background-color: #c82333;
+        }
+        #qrScanBtn {
+            background-color: #28a745; /* Green for Check-in */
+        }
+        #qrScanBtn:hover {
+            background-color: #218838;
+        }
+        #checkOutBtn {
+            background-color: #ffc107; /* Yellow for Check-out */
+            color: #333;
+        }
+        #checkOutBtn:hover {
+            background-color: #e0a800;
+        }
+        #sosBtn {
+            background-color: #dc3545; /* Red for SOS */
+            margin-top: 20px;
+            font-weight: bold;
+            padding: 15px;
+            font-size: 1.1em;
+        }
+        #sosBtn:hover {
+            background-color: #c82333;
+        }
+        #sosBtn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .sidebar {
+            background-color: #f0f0f0;
+            padding: 15px;
+            min-width: 200px;
+            max-width: 300px;
+            overflow-y: auto;
+            border-left: 1px solid #dee2e6;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar h3 {
+            margin-top: 0;
+            color: #343a40;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        #trekkersList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #trekkersList li {
+            padding: 8px 0;
+            border-bottom: 1px dotted #ced4da;
+            color: #495057;
+        }
+        #trekkersList li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <div class="auth-container" id="authSection">
+            <h2>WELCOME TO SURAKSHAA!</h2>
+            <p id="authStatus">Not signed in.</p>
+            <input type="email" id="emailInput" placeholder="Email" required>
+            <input type="password" id="passwordInput" placeholder="Password" required>
+            <button id="signUpBtn">Sign Up</button>
+            <button id="signInBtn">Sign In</button>
+            <button id="googleSignInBtn">Sign in with Google</button>
+            <button id="signOutBtn" style="display: none;">Sign Out</button>
+        </div>
+        <button id="qrScanBtn">Simulate Check-in</button>
+        <button id="checkOutBtn" style="display: none;">Check Out</button>
+        <button id="sosBtn" style="display: none;">🆘 Help!</button>
+    </div>
+
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+
+    <div class="sidebar">
+        <h3>Currently Checked-in Trekkers</h3>
+        <ul id="trekkersList"></ul>
+    </div>
+
+    <script type="module" src="firebase-init.js"></script>
+
+    <script type="module" src="app.js"></script>
+
+    <script src="map.js"></script>
+
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVVXTXOWXPnk_Bj9RjA5ThAONCVl2vHyU&callback=initMap">
+    </script>
+</body>
+</html>
